@@ -1,0 +1,73 @@
+<div class="wrapper">
+  <div class="container">
+    <div class="btn-create-wrapper">
+      <button mat-raised-button color="primary" (click)="handleOpenModal()">Create record</button>
+    </div>
+
+    <div class="filters">
+      <div class="filters__title">Filters</div>
+      <div [formGroup]="filterForm" class="form">
+        <mat-form-field class="name">
+          <mat-label>Name</mat-label>
+          <input formControlName="name" class="form-control" placeholder="Name" type="text" matInput />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Role</mat-label>
+          <mat-select formControlName="role">
+            <mat-option *ngFor="let role of roles" [value]="role">
+              {{role}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Status</mat-label>
+          <mat-select formControlName="status">
+            <mat-option *ngFor="let status of statuses" [value]="status">
+              {{status}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div class="reset">
+          <button mat-raised-button (click)="resetFilters()">Reset filters</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="records-list">
+      <mat-card class="record" *ngFor="let record of ((filteredData.length && filtersApplied)? filteredData : (filtersApplied ? [] : data)); trackBy: trackByFn">
+        <mat-card-header>
+          <mat-card-title>{{record.name}}</mat-card-title>
+          <mat-card-subtitle>{{record.address}}</mat-card-subtitle>
+          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="handleEditRecord(record)">
+              <mat-icon>edit</mat-icon>
+              <span>Edit</span>
+            </button>
+            <button mat-menu-item (click)="handleDeleteRecord(record.id)">
+              <mat-icon>delete</mat-icon>
+              <span>Delete</span>
+            </button>
+          </mat-menu>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="record__amount">Amount: {{record.amount}}</div>
+          <div class="tags">
+            <div class="tags__item">
+              <span>Role: </span>
+              <div class="record__role tag tag_role" *ngIf="record.role">{{record.role}}</div>
+            </div>
+            <div class="tags__item">
+              <span>Status: </span>
+              <div class="record__status tag tag_status" *ngIf="record.status">{{record.status}}</div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <div *ngIf="(filtersApplied && !filteredData.length) || !data.length">No data</div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,89 @@
+:host {
+  ::ng-deep {
+    .mat-form-field-appearance-fill .mat-form-field-flex {
+      background-color: transparent;
+    }
+  }
+}
+
+.records-list {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.tags {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}
+
+.tag {
+  padding: 5px 10px;
+  border-radius: 8px;
+  text-align: center;
+  color: black;
+
+  &_role {
+    background: mediumpurple;
+  }
+
+  &_status {
+    background: cadetblue;
+  }
+}
+
+.mat-card-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-create-wrapper {
+  margin: 20px 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.filters {
+  margin-bottom: 20px;
+  &__title {
+    font-size: 26px;
+    margin: 15px 0;
+  }
+
+  .form {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 20px;
+
+    .name {
+      margin-bottom: 1.5px;
+    }
+  }
+
+  .reset {
+    align-self: center;
+  }
+}
+
+
+@media (min-width: 600px) {
+  .records-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .records-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+

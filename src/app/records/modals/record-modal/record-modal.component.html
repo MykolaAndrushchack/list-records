@@ -1,0 +1,38 @@
+<div class="modal">
+  <div class="title">{{record ? 'Edit' : 'Create'}} record</div>
+  <form [formGroup]="form" class="form">
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input required formControlName="name" class="form-control" placeholder="Name" type="text" matInput />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Address</mat-label>
+      <input formControlName="address" class="form-control" placeholder="Address" type="text" matInput />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Amount</mat-label>
+      <input matInput formControlName="amount" class="form-control" placeholder="Amount" type="number" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Role</mat-label>
+      <mat-select formControlName="role">
+        <mat-option *ngFor="let role of roles" [value]="role">
+          {{role}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="status">
+        <mat-option *ngFor="let status of statuses" [value]="status">
+          {{status}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button type="button" mat-raised-button (click)="submit()" color="primary" [disabled]="!form.valid">
+      {{record ? 'Edit' : 'Create'}}
+    </button>
+  </form>
+</div>
