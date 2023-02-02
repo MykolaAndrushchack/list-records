@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {RecordModalComponent} from '../../modals/record-modal/record-modal.component';
-import {filter, map, tap} from 'rxjs';
+import {filter, map, Subscription, tap} from 'rxjs';
 import {RecordsFirebaseService} from '../../../services/records-firebase.service';
 import {IRecord} from '../../../models/record.interface';
 import {Role} from '../../../models/role.enum';
@@ -13,13 +13,15 @@ import {FormBuilder, FormGroup} from '@angular/forms';
   templateUrl: './records-list.component.html',
   styleUrls: ['./records-list.component.scss']
 })
-export class RecordsListComponent implements OnInit {
+export class RecordsListComponent implements OnInit, OnDestroy {
   data: IRecord[] = [];
   filteredData: IRecord[] = [];
   filterForm!: FormGroup;
   roles = Object.keys(Role);
   statuses = Object.keys(Status);
   filtersApplied = false;
+
+  private _subs: Subscription = new Subscription;
 
   constructor(private dialog: MatDialog,
               private _recordsFirebaseService: RecordsFirebaseService,
@@ -85,7 +87,7 @@ export class RecordsListComponent implements OnInit {
   }
 
   changeFilter() {
-    this.filterForm.valueChanges.subscribe(x => {
+    this._subs =  this.filterForm.valueChanges.subscribe(x => {
       if (!this.filtersApplied) {
         this.filtersApplied = true;
       }
@@ -127,6 +129,10 @@ export class RecordsListComponent implements OnInit {
         return filters[key](item[key]);
       });
     });
+  }
+
+  ngOnDestroy() {
+    this._subs.unsubscribe();
   }
 
 
